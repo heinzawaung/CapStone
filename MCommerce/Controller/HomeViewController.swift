@@ -29,36 +29,7 @@ class HomeViewController: UIViewController {
         
         
 
-        HUD.show(.progress)
-        MCApi.sharedInstance().loadCategoryList(){
-            success,categoryList in
-            
-            
-            HUD.hide()
-            
-            
-            if success {
-                self.categories.removeAll()
-                if let categoryList = categoryList {
-                    for category in categoryList {
-                        self.categories.append(category)
-                    }
-                }
-            }else{
-                self.categories.removeAll()
-                let cats = try! self.realm.objects(Category.self).filter("parentId == 0")
-                for c in cats {
-                    self.categories.append(c)
-                }
-                
-                
-            }
-            
-            
-            self.tableView.reloadData()
-          
-            
-        }
+       
     
         HUD.show(.progress)
         MCApi.sharedInstance().getLastCreatedCart(){
@@ -93,6 +64,41 @@ class HomeViewController: UIViewController {
         }
      
       
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        HUD.show(.progress)
+        MCApi.sharedInstance().loadCategoryList(){
+            success,categoryList in
+            
+            HUD.hide()
+            
+            
+            if success {
+                self.categories.removeAll()
+                if let categoryList = categoryList {
+                    for category in categoryList {
+                        self.categories.append(category)
+                    }
+                }
+            }else{
+                self.categories.removeAll()
+                let cats = try! self.realm.objects(Category.self).filter("parentId == 0")
+                for c in cats {
+                    self.categories.append(c)
+                }
+                
+                
+            }
+            
+            
+            self.tableView.reloadData()
+            
+            
+        }
+        
+        
     }
     
     
