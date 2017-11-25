@@ -17,10 +17,6 @@ http://marketcloud.it/
 5. Add a shipping address
 6. Make order
 
-## Setup
-
-Generally speaking, most projects can run without any additional setup.
-
 ## Sample screenshots ##
 
 Login View 
