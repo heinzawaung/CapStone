@@ -25,7 +25,7 @@ Generally speaking, most projects can run without any additional setup.
 
 Login View 
 
-![Login View](screenshots/login.png)
+![Login View](screenshots/loginscreen.png)
 
 Sign In
 
