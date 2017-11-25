@@ -9,9 +9,41 @@
 
 import UIKit
 import RealmSwift
+import PKHUD
 
 class ProfileViewController: UIViewController ,UITableViewDelegate,UITableViewDataSource{
     
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var tableView: UITableView!
+    var orders = [Order]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let nib = UINib(nibName: "TableSectionHeader", bundle: nil)
+        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "TableSectionHeader")
+    
+        
+        name.text = UserDefaults.standard.value(forKey: "name") as! String
+       
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        HUD.show(.progress)
+        MCApi.sharedInstance().loadOrderList(){
+            success , orderList in
+            HUD.hide()
+            if success {
+                self.orders.removeAll()
+                for order in orderList!{
+                    self.orders.append(order)
+                }
+                
+                self.tableView.reloadData()
+            }
+        }
+    }
     
     @IBAction func signOut(_ sender: Any) {
         let realm = try! Realm()
@@ -30,26 +62,58 @@ class ProfileViewController: UIViewController ,UITableViewDelegate,UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return orders[section].items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "order_cell")
-        return cell!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CartCell") as! CartCell
+        
+        let product = orders[indexPath.section].items[indexPath.row]
+        
+        cell.name.text = product.name
+        
+        let url = URL(string:  product.images[0].image)
+        cell.productImage.kf.setImage(with: url)
+        
+        cell.price.text = "EURO \(product.price)"
+        cell.quantity.text = String(product.quantity)
+        return cell
+        
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return orders.count
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    
+        // Dequeue with the reuse identifier
+        let order = orders[section]
+        
+        let cell = self.tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableSectionHeader")
+        let header = cell as! TableSectionHeader
+        header.orderIdLable.text = String(order.id)
+     
+        header.orderTotalLable.text = String(order.display_total)
+        
+        
+        return cell
+        
+    }
+    
+    
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 55
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150.0
     }
     
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        
-        MCApi.sharedInstance().loadOrderList(){
-            success , catelist in
-            
-        }
-        
-    }
+   
 
    
 

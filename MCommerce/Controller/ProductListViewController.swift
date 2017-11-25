@@ -43,17 +43,19 @@ class ProductListViewController: UIViewController,UITableViewDataSource ,UITable
                 }
                 
                 self.productTableView.reloadData()
+            }else{
+                let prods = try! self.realm.objects(Product.self)
+                for product in prods {
+                    self.products.append(product)
+                    
+                }
+                
+                self.productTableView.reloadData()
             }
         }
         
         
-        let prods = try! realm.objects(Product.self)
-        for product in prods {
-            products.append(product)
-           
-        }
         
-        productTableView.reloadData()
         
     }
 

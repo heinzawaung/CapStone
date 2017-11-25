@@ -21,22 +21,11 @@ class HomeViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var categories: [Category]! = []
-    var subCategories: [Category]! = []
+    var categories = [Category]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-        let cats = try! realm.objects(Category.self).filter("parentId == 0")
-        for c in cats {
-            categories.append(c)
-        }
-        
-        tableView.reloadData()
-      
-        
         
         
 
@@ -55,6 +44,14 @@ class HomeViewController: UIViewController {
                         self.categories.append(category)
                     }
                 }
+            }else{
+                self.categories.removeAll()
+                let cats = try! self.realm.objects(Category.self).filter("parentId == 0")
+                for c in cats {
+                    self.categories.append(c)
+                }
+                
+                
             }
             
             
@@ -98,6 +95,7 @@ class HomeViewController: UIViewController {
       
     }
     
+    
 
     func showAlert(title: String,message: String?) {
         
@@ -131,10 +129,14 @@ extension HomeViewController: UITableViewDelegate,UITableViewDataSource{
         return cell
     }
     
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let vc = storyboard?.instantiateViewController(withIdentifier: "SubCategoryViewController") as! SubCategoryViewController
         vc.parentId = categories[indexPath.row].id
+       
+        
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import PKHUD
 
 class ShippingAddressViewController: UIViewController {
     
@@ -34,12 +35,28 @@ class ShippingAddressViewController: UIViewController {
         
      
         if validated() {
+            HUD.show(.progress)
             MCApi.sharedInstance().createAddress(name: name.text!, email: email, country: country.text!, city: city.text!, address1: address.text!, postalCode: postalCode.text!) {
+                
+            
                 success, errorMessage, addressID in
                 if success {
+                    
                     MCApi.sharedInstance().createOrder(cardId: (savedCart?.id)!, shippingAddressId: addressID!, billingAddressId: addressID!){
                         success , errorMessage in
-                        print("order finish")
+                        
+                        
+                        if success {
+                            HUD.hide()
+                            self.showAlert(title: "", message: "Order Success")
+                            
+                            let cart = self.realm.objects(Cart.self)
+                            try! self.realm.write {
+                                self.realm.delete(cart)
+                            }
+                            MCApi.sharedInstance().createEmptyCart()
+                        }
+                        
                     }
                 }
                     
@@ -49,6 +66,20 @@ class ShippingAddressViewController: UIViewController {
         
       
     }
+    
+    
+    func showAlert(title: String,message: String?) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        
+        alert.addAction(ok)
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+
     
     
     

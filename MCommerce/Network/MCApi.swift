@@ -128,6 +128,7 @@ class MCApi : NSObject{
                     return
                 }
                 
+                print(value)
                
                
                 
@@ -135,8 +136,14 @@ class MCApi : NSObject{
                     
                     if let token = data["token"] as? String{
                         
+                        if let user = data["user"] as? [String:Any]{
+                            let name = user["name"] as! String
+                            UserDefaults.standard.setValue(name, forKey: "name")
+                        }
+                        
                         UserDefaults.standard.setValue(email, forKey: "email")
                         UserDefaults.standard.setValue(password, forKey: "password")
+                        
                         UserDefaults.standard.set(token, forKey: "token")
                         completion(true,nil)
                         
@@ -481,7 +488,7 @@ class MCApi : NSObject{
         
     }
     
-    func loadOrderList(completion: @escaping (( _:Bool , _ :Results<Category>?) -> Void)) {
+    func loadOrderList(completion: @escaping (( _:Bool , _ :[Order]?) -> Void)) {
         
         let token = UserDefaults.standard.value(forKey: "token") as! String
         
@@ -511,13 +518,54 @@ class MCApi : NSObject{
                     }
                     
                     
+                    var orderList = [Order]()
                     let data = value["data"] as! [[String:AnyObject]]
                     
                     for orderJSON in data {
-                        
+                       
+                        let id = orderJSON["id"] as! Int
+                        let display_total = orderJSON["display_total"] as! String
                        
                         
+                        print("order \(id)")
+                        let order = Order()
+                        order.id = id
+                        
+                        order.display_total = display_total
+                        
+                        let items = orderJSON["products"] as! [[String:AnyObject]]
+                        for item in items {
+                            print("product \(item)")
+                            let product = ProductOrderItem()
+                            
+                            product.id = item["id"] as! Int
+                            product.name = item["name"] as! String
+                            product.price = item["price"] as! Int
+                           
+                            product.quantity = item["quantity"] as! Int
+                            
+                            
+                            if let imageArray = item["images"] as? [String] {
+                                
+                                
+                                for image in imageArray{
+                                    let proudctImage = ProductOrderImage()
+                                    proudctImage.image = image
+                                    product.images.append(proudctImage)
+                                }
+                                
+                            }else{
+                                
+                            }
+                            order.items.append(product)
+                            
+                        }
+                        
+                        orderList.append(order)
+                        
                     }
+                    
+                    completion(true,orderList)
                     
                    
                     return

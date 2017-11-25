@@ -20,7 +20,11 @@ class SubCategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+       
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        subCategories.removeAll()
         if let parentId = parentId {
             let cats = try! realm.objects(Category.self).filter("parentId == \(parentId)")
             for c in cats {

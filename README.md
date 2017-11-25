@@ -25,7 +25,7 @@ Generally speaking, most projects can run without any additional setup.
 
 Login View 
 
-![Login View](screenshots/login.PNG)
+![Login View](screenshots/login.png)
 
 Sign In
 
@@ -33,7 +33,12 @@ Sign In
 
 Products list
 
+![Products list](screenshots/categorylist.png)
+
+Products list
+
 ![Products list](screenshots/products.PNG)
+
 
 Add to cart
 
