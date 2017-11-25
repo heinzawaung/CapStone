@@ -29,7 +29,7 @@ Login View
 
 Sign In
 
-![Sign In](screenshots/registrazione.PNG)
+![Sign In](screenshots/signup_screen.PNG)
 
 Products list
 
