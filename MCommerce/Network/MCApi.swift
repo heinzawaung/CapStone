@@ -708,7 +708,7 @@ class MCApi : NSObject{
         
     }
     
-    func loadProductList(by categoryPath :String, completion: @escaping (( _:Bool , _ :Results<Product>?) -> Void)) {
+    func loadProductList(by categoryPath :String,categoryId:Int, completion: @escaping (( _:Bool , _ :Results<Product>?) -> Void)) {
         
         let token = UserDefaults.standard.value(forKey: "token") as! String
         
@@ -738,7 +738,7 @@ class MCApi : NSObject{
                 if let value = response.result.value as? [String:AnyObject] {
                     
                     
-                    let products = self.realm.objects(Product.self)
+                    let products = self.realm.objects(Product.self).filter("categoryId == \(categoryId)")
                     try! self.realm.write {
                         self.realm.delete(products)
                     }
@@ -748,11 +748,15 @@ class MCApi : NSObject{
                     
                     let data = value["data"] as! [[String:AnyObject]]
                     
+                    
+                    
                     for productJSON in data {
                         
                         let product = Product()
                         
                         product.id = productJSON["id"] as! Int
+                        product.categoryId = productJSON["category_id"] as! Int
+                        
                         product.name = productJSON["name"] as! String
                         product.price = productJSON["price"] as! Int
                         product.display_price = productJSON["display_price"] as! String

@@ -19,6 +19,7 @@ class ProductListViewController: UIViewController,UITableViewDataSource ,UITable
     
 
     var categoryPath : String?
+    var categoryId : Int?
     
     let realm = try! Realm()
     
@@ -31,7 +32,7 @@ class ProductListViewController: UIViewController,UITableViewDataSource ,UITable
         super.viewDidLoad()
 
        HUD.show(.progress)
-        MCApi.sharedInstance().loadProductList(by: categoryPath!){
+        MCApi.sharedInstance().loadProductList(by: categoryPath!,categoryId: categoryId!){
             success , productList in
              HUD.hide()
             if success{
@@ -44,7 +45,7 @@ class ProductListViewController: UIViewController,UITableViewDataSource ,UITable
                 
                 self.productTableView.reloadData()
             }else{
-                let prods = try! self.realm.objects(Product.self)
+                let prods = try! self.realm.objects(Product.self).filter("categoryId == \(self.categoryId!)")
                 for product in prods {
                     self.products.append(product)
                     

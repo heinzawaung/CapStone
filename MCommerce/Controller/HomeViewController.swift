@@ -57,6 +57,7 @@ class HomeViewController: UIViewController {
                     }
                 }
             }else{
+                
                 print("create empty cart")
                 MCApi.sharedInstance().createEmptyCart()
             }
@@ -83,6 +84,7 @@ class HomeViewController: UIViewController {
                     }
                 }
             }else{
+                self.showAlert(title: "", message: "Cannot connect to server")
                 self.categories.removeAll()
                 let cats = try! self.realm.objects(Category.self).filter("parentId == 0")
                 for c in cats {

@@ -18,6 +18,7 @@ class Product: Object
 
 {
     @objc dynamic var id :Int = 0
+    @objc dynamic var categoryId :Int = 0
     @objc dynamic var has_variants :Int = 0
     @objc dynamic var name :String = ""
     @objc dynamic var display_price : String = ""
