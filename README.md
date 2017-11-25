@@ -31,7 +31,7 @@ Sign In
 
 ![Sign In](screenshots/signup_screen.png)
 
-Products list
+Category list
 
 ![Products list](screenshots/categorylist.png)
 
