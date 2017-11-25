@@ -45,8 +45,12 @@ Products Detail
 
 Remove from cart (swipe left on a product when in your cart)
 
-![Remove from cart](screenshots/remove_from_cart.PNG)
+![Remove from cart](screenshots/remove_from_cart.png)
 
 Add a shipping address
 
-![Add a shipping address](screenshots/shipping_address.PNG)
+![Add a shipping address](screenshots/shipping_address.png)
+
+Order History
+
+![Order History](screenshots/order_history.png)
