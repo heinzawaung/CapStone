@@ -33,7 +33,7 @@ Sign In
 
 Category list
 
-![Products list](screenshots/categorylist.png)
+![Products list](screenshots/category.png)
 
 Products list
 
