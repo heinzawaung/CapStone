@@ -39,15 +39,14 @@ Products list
 
 ![Products list](screenshots/product.png)
 
+Products Detail
 
-Add to cart
-
-![Add to cart](screenshots/added to cart.PNG)
+![Products Detail](screenshots/product_detail.png)
 
 Remove from cart (swipe left on a product when in your cart)
 
-![Remove from cart](screenshots/removeCart.PNG)
+![Remove from cart](screenshots/remove_from_cart.PNG)
 
 Add a shipping address
 
-![Add a shipping address](screenshots/shipping.PNG)
+![Add a shipping address](screenshots/shipping_address.PNG)
