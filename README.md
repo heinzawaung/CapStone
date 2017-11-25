@@ -37,7 +37,7 @@ Category list
 
 Products list
 
-![Products list](screenshots/products.PNG)
+![Products list](screenshots/product.png)
 
 
 Add to cart
