@@ -55,9 +55,14 @@ class ShippingAddressViewController: UIViewController {
                                 self.realm.delete(cart)
                             }
                             MCApi.sharedInstance().createEmptyCart()
+                        }else{
+                            self.showAlert(title: "", message: "Order Fail")
                         }
                         
                     }
+                }else{
+                    HUD.hide()
+                    self.showAlert(title: "", message: "Cannot Connot To Server")
                 }
                     
                 

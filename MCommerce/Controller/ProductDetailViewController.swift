@@ -8,6 +8,7 @@
 
 import UIKit
 import Auk
+import PKHUD
 
 class ProductDetailViewController: UIViewController {
     
@@ -75,8 +76,10 @@ class ProductDetailViewController: UIViewController {
     
     @IBAction func addToCart(_ sender: Any) {
         print("add")
+        HUD.show(.progress)
         MCApi.sharedInstance().addItemToCart(productId: proudctId, quantity: quantity){
             success ,cart in
+            HUD.hide()
             if success {
                 if let tabItems = self.tabBarController?.tabBar.items as NSArray!
                 {
@@ -91,9 +94,25 @@ class ProductDetailViewController: UIViewController {
                     
                     
                 }
+            }else{
+                self.showAlert(title: "", message: "Cannot Connect To Server")
             }
         }
     }
+    
+    
+    func showAlert(title: String,message: String?) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        
+        alert.addAction(ok)
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
     
    
     

@@ -785,7 +785,7 @@ class MCApi : NSObject{
                     
                     
                     
-                    let prods = try! self.realm.objects(Product.self)
+                    let prods = try! self.realm.objects(Product.self).filter("categoryId == \(categoryId)")
                     completion(true,prods)
                     
                    

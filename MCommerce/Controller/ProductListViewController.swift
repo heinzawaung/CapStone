@@ -45,6 +45,7 @@ class ProductListViewController: UIViewController,UITableViewDataSource ,UITable
                 
                 self.productTableView.reloadData()
             }else{
+                self.showAlert(title: "", message: "Cannot Connect To Server")
                 let prods = try! self.realm.objects(Product.self).filter("categoryId == \(self.categoryId!)")
                 for product in prods {
                     self.products.append(product)
@@ -103,6 +104,18 @@ class ProductListViewController: UIViewController,UITableViewDataSource ,UITable
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
+    }
+    
+    func showAlert(title: String,message: String?) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        
+        alert.addAction(ok)
+        
+        self.present(alert, animated: true, completion: nil)
+        
     }
     
     
