@@ -41,13 +41,7 @@ class ProductDetailViewController: UIViewController {
         }
         
         totalPriceLabel.text = String(priceAmount)
-        
-       
-        
-      
     }
-
-    
     
     @IBAction func decreaseQuantity(_ sender: Any) {
         if self.quantity <= 1{
